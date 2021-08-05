@@ -23,8 +23,22 @@ class HexTileMap
     end
   end
 
+  attr_reader :tiles
+
+  def snap_pq(p, q, type: :centre)
+    stripe = fetch_stripe p.floor
+
+    case type
+    when :centre
+      q = q.to_f - stripe[:offset]
+      [0.5 + p.floor, 0.5 + q.floor + stripe[:offset]]
+    when :corner
+      [p.round, (2*q).round / 2]
+    end
+  end
+
   def tile_at(p, q)
-    stripe = fetch_stripe p.to_f.floor
+    stripe = fetch_stripe p.floor
     bounded_fetch stripe[:tiles], (q.to_f - stripe[:offset]).floor, @default
   end
 
@@ -52,19 +66,7 @@ class HexTileMap
     bounded_fetch @tiles, index, { tiles: [], offset: 0 }
   end
 
-  def each_stripe(&block)
-    @tiles.each(&block)
-  end
-
-  def each_tile(p_init = 0, q_init = 0, p_pitch = 1, q_pitch = 1, &block)
-    coords = { p: p_init }
-    @tiles.each do |stripe|
-      coords[:q] = q_init + (stripe[:offset] * q_pitch)
-      stripe[:tiles].each do |tile|
-        yield tile, coords
-        coords[:q] += q_pitch
-      end
-      coords[:p] += p_pitch
-    end
-  end
+  # def each_stripe(&block)
+  #   @tiles.each(&block)
+  # end
 end
