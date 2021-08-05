@@ -26,16 +26,16 @@ class Game
     inp = @args.inputs
     if inp.mouse.click
       c = inp.mouse.click
-      p = c.point.x / TILE_W
-      q = c.point.y / TILE_H
+      p = c.point.x.to_f / TILE_W
+      q = c.point.y.to_f / TILE_H
       @map.set_tile(p, q, COLOURS[:yellow])
     end
   end
 
   def draw
-    @map.each_tile do |tile, coords|
-      x = coords[:p] * TILE_W
-      y = coords[:q] * TILE_H
+    @map.each_tile(0, 0, TILE_W, TILE_H) do |tile, coords|
+      x = coords[:p]
+      y = coords[:q]
       @args.outputs.solids << [x, y, TILE_W, TILE_H, *tile]
       @args.outputs.borders << [x, y, TILE_W + 1, TILE_H + 1, 160]
     end

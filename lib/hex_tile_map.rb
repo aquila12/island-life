@@ -52,22 +52,19 @@ class HexTileMap
     bounded_fetch @tiles, index, { tiles: [], offset: 0 }
   end
 
-  # def index_fetch(stripe_num, tile_num)
-  #   stripe = fetch_stripe(stripe_num)[:tiles]
-  #   bounded_fetch stripe, tile_num, @default
-  # end
-
   def each_stripe(&block)
     @tiles.each(&block)
   end
 
-  def each_tile(&block)
-    @tiles.each_with_index do |stripe, i|
-      coords = { p: i, q: stripe[:offset] }
+  def each_tile(p_init = 0, q_init = 0, p_pitch = 1, q_pitch = 1, &block)
+    coords = { p: p_init }
+    @tiles.each do |stripe|
+      coords[:q] = q_init + (stripe[:offset] * q_pitch)
       stripe[:tiles].each do |tile|
         yield tile, coords
-        coords[:q] += 1
+        coords[:q] += q_pitch
       end
+      coords[:p] += p_pitch
     end
   end
 end
