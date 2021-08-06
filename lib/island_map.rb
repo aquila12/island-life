@@ -32,6 +32,13 @@ class IslandMap < Hash
     end
   end
 
+  def each_adjacent(centre)
+    centre.round.ring(1) do |coord|
+      k = coord.to_axial
+      yield self[k] if self.key? k
+    end
+  end
+
   private
 
   def rect_around(pt, radius, *args)
