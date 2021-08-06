@@ -7,6 +7,9 @@ require 'lib/hex_tile_map_view.rb'
 class Game
   COLOURS = {
     blue: [64, 64, 192],
+    green: [64, 192, 64],
+    greend: [0, 128, 16],
+    grey: [96, 64, 96],
     yellow: [255, 192, 0]
   }
 
@@ -15,7 +18,7 @@ class Game
 
   def initialize(args)
     @args = args
-    @map = HexTileMap.new(15, 15, shape: :long_odds, default: COLOURS[:blue])
+    @map = HexTileMap.new(15, 15, shape: :long_odds, default: COLOURS[:grey])
     @map_view = HexTileMapView.new(@map)
     @map_view.x_scl = TILE_W
     @map_view.y_scl = TILE_H
@@ -33,7 +36,7 @@ class Game
       if m.button_left
         p, q = @map_view.xy_to_pq(m.click.point)
         @rect = [p * TILE_W - 2, q * TILE_H - 2, 5, 5, 192, 0, 0]
-        @map.set_tile(p, q, COLOURS[:yellow])
+        @map.set_tile(p, q, COLOURS[:green])
       elsif m.button_right
         p, q = @map_view.xy_to_pq(m.click.point, snap: :corner)
         @rect = [p * TILE_W - 2, q * TILE_H - 2, 5, 5, 0, 192, 0]
