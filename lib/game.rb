@@ -9,7 +9,8 @@ class Game
   NUM_ACTIONS = 3
 
   def initialize(args)
-    @args = args
+    @outputs = args.outputs
+    @inputs = args.inputs
     @board = IslandMap.new(4)
     @actions = []
 
@@ -19,31 +20,29 @@ class Game
   end
 
   def tick
-    inputs
-    draw
+    do_input
+    do_output
   end
 
-  def inputs
-    inp = @args.inputs
-    if inp.mouse.click
+  def do_input
+    i = @inputs
+    if i.mouse.click
       case
-      when inp.mouse.button_left then place_action(inp.mouse.position)
-      when inp.mouse.button_right then commit_action
-      when inp.mouse.button_middle
+      when i.mouse.button_left then place_action(i.mouse.position)
+      when i.mouse.button_right then commit_action
+      when i.mouse.button_middle
         @profiler[:island_update].profile { update_board }
         @status = @profiler[:island_update].report
       end
     end
   end
 
-  def draw
-    @board.draw(@args.outputs)
+  def do_output
+    o = @outputs
+    @board.draw o
 
-    @actions.each do |item|
-      @args.outputs.borders << item[:rectangle]
-    end
-
-    @args.outputs.labels << [8, 720 - 8, @status] if @status
+    @actions.each { |item| o.borders << item[:rectangle] }
+    o.labels << [8, 720 - 8, @status] if @status
   end
 
   private
@@ -75,10 +74,7 @@ class Game
 
   def update_board
     @board.each do |_k, tc|
-      score = 0
-      @board.each_adjacent(tc[:coordinate]) do |ta|
-        score += 1 if ta[:tile] == :grass
-      end
+      score = @board.each_adjacent(tc[:coordinate]).count { |ta| ta[:tile] == :grass }
 
       tc[:new_tile] = :grass if score > 1
     end
