@@ -23,8 +23,8 @@ class CubeCoord
     new(-(p + q), p, q)
   end
 
-  def self.from_point(pt, o = DEFAULT_ORIGIN)
-    x, y = [pt.x - o.x, pt.y - o.y]
+  def self.from_point(pt, origin = DEFAULT_ORIGIN)
+    x, y = [pt.x - origin.x, pt.y - origin.y]
     y_r3s = y / ROOT_3_SIZE
     x_s = x / SIZE
     from_axial(x_s + y_r3s, -2 * y_r3s)
@@ -34,10 +34,10 @@ class CubeCoord
     "[#{@x}, #{@y}, #{@z}]"
   end
 
-  def to_point(o = DEFAULT_ORIGIN)
+  def to_point(origin = DEFAULT_ORIGIN)
     p, q = to_axial
     q_2 = q / 2.0
-    [o.x + SIZE * (p + q_2),  o.y - ROOT_3_SIZE * q_2]
+    [origin.x + SIZE * (p + q_2),  origin.y - ROOT_3_SIZE * q_2]
   end
 
   def round!
