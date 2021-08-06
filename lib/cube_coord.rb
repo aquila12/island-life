@@ -114,7 +114,7 @@ class CubeCoord
     ADJACENCY.each do |v|
       radius.times do
         coord.add v
-        yield coord
+        yield coord.dup
       end
     end
   end
