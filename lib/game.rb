@@ -40,6 +40,24 @@ class Game
         end
         @actions.clear
       end
+
+      if inp.mouse.button_middle
+        @board.each do |_k, tc|
+          score = 0
+          @board.each_adjacent(tc[:coordinate]) do |ta|
+            score += 1 if ta[:tile] == :grass
+          end
+          
+          tc[:new_tile] = :grass if score > 1
+        end
+
+        @board.each do |_k, t|
+          if t.key? :new_tile
+            t[:tile] = t[:new_tile]
+            t.delete :new_tile
+          end
+        end
+      end
     end
   end
 
