@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'lib/cube_coord.rb'
+require 'lib/island_map.rb'
 
 # Class to encapsulate the whole game state
 class Game
@@ -8,7 +9,7 @@ class Game
 
   def initialize(args)
     @args = args
-    init_board(4)
+    @board = IslandMap.new(4)
     @actions = []
   end
 
@@ -22,22 +23,20 @@ class Game
     if inp.mouse.click
       if inp.mouse.button_left
         c = CubeCoord.from_point(inp.mouse.position).round!
-        if @actions.length < NUM_ACTIONS && @board_map.key?(c.to_axial)
+        if @actions.length < NUM_ACTIONS && @board.key?(c.to_axial)
           @actions << {
             rectangle: rect_around(c.to_point, 3, 0, 192, 0),
             coord: c
           }
         end
+
+        @status = c.to_s
       end
 
       if inp.mouse.button_right
         @actions.each do |a|
           c = a[:coord]
-          @board_map[c.to_axial] = {
-            solid: rect_around(c.to_point, CubeCoord::SIZE / 2 - 1, 0, 160, 0),
-            outline: rect_around(c.to_point, CubeCoord::SIZE / 2, 0, 120, 0),
-            tile: :grass
-          }
+          @board[c.to_axial][:tile] = :grass
         end
         @actions.clear
       end
@@ -45,14 +44,13 @@ class Game
   end
 
   def draw
-    @board_map.values.each do |item|
-      @args.outputs.solids << item[:solid]
-      @args.outputs.borders << item[:outline]
-    end
+    @board.draw(@args.outputs)
 
     @actions.each do |item|
       @args.outputs.borders << item[:rectangle]
     end
+
+    @args.outputs.labels << [8, 720 - 8, @status] if @status
   end
 
   private
@@ -60,22 +58,5 @@ class Game
   def rect_around(pt, radius, *args)
     d = radius * 2 + 1
     [pt.x - radius, pt.y - radius, d, d, *args]
-  end
-
-  def init_board(radius)
-    @board_map = {}
-    origin = CubeCoord.new(0, 0, 0)
-    (-4..4).each do |p|
-      (-4..4).each do |q|
-        c = CubeCoord.from_axial(p, q)
-        next if c.distance_from(origin) > radius
-
-        @board_map[c.to_axial] = {
-          solid: rect_around(c.to_point, CubeCoord::SIZE / 2 - 1, 160, 160, 160),
-          outline: rect_around(c.to_point, CubeCoord::SIZE / 2, 120, 120, 120),
-          tile: :waste
-        }
-      end
-    end
   end
 end
