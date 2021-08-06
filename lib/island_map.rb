@@ -32,11 +32,13 @@ class IslandMap < Hash
     end
   end
 
-  def each_adjacent(centre)
-    centre.round.ring(1) do |coord|
-      k = coord.to_axial
-      yield self[k] if self.key? k
-    end
+  def each_adjacent(centre, &block)
+    Enumerator.new do |yielder|
+      centre.round.ring(1) do |coord|
+        k = coord.to_axial
+        yielder << self[k] if self.key? k
+      end
+    end.each(&block)
   end
 
   private
