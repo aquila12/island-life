@@ -50,10 +50,11 @@ class CubeCoord
     when dz then iz = -(iy + ix)
     end
     @x, @y, @z = [ix, iy, iz]
+    self
   end
 
   def round
-    dup.tap { |c| c.round! }
+    dup.round!
   end
 
   def distance_from(other)
