@@ -1,0 +1,42 @@
+0.1
+
+	Gameplay
+		Actions
+			- 3? per turn
+			- Sets terrain at tile to an unlocked type, or spawns an unlocked species
+		Undo
+			- Unlimited for actions taken that turn
+			- Could also implement as a revert on a tile
+
+	Terrain
+		Wastes(?)
+			- Base tiles; what grasslands decay into
+		Grasslands
+			- Basis for everything else
+			- Wastes with 2 grass adjacent will become grass
+			- Need 2 adjacent grass to survive
+		New Forest(?)
+			- Grasslands surrounded by grasslands or better become New Forest
+			- Needs 4 adjacent grassland+ to survive
+		Forest
+			-
+		Ancient Forest(?)
+			- Forests surrounded by other forests become Ancient Forests
+			- Need to be surrounded by forest to survive
+			-
+
+	Wildlife
+		Each tier of terrain could support an extra species in a tile (grasslands 1, new forest 2 etc.)
+
+		Herbivore
+			- Needs a certain tier of terrain to support advanced species
+			- Provides a certain number of points to feed carnivore
+				- Little animals: few points
+				- Middle animals: most points
+				- Big animals: fewer points
+				- Could modulate the relationships between species by having power values that vary the points given by each prey
+
+		Predator
+			- Have a given range they can feed over
+			- So long as there's enough prey in the range, they survive
+			- If ranges overlap, probably just split the points equally
