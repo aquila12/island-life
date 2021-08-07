@@ -18,13 +18,20 @@ class Game
     @board = IslandMap.new(4)
     @actions = []
 
-    @profiler = {
-      island_update: Profiler.new('Island Update', 5)
-    }
+    @fiber_profiler = Profiler.new('Fiber', 10)
   end
 
   def tick
-    do_input
+    if @current_operation&.alive?
+      @fiber_profiler.profile do
+        set_deadline(5000)
+        @current_operation.resume
+      end
+      @status = @fiber_profiler.report
+    else
+      do_input
+    end
+
     do_output
   end
 
@@ -35,8 +42,7 @@ class Game
       when i.mouse.button_left then place_action(@window.mouse_position)
       when i.mouse.button_right then commit_action
       when i.mouse.button_middle
-        @profiler[:island_update].profile { update_board }
-        @status = @profiler[:island_update].report
+        @current_operation = update_board
       end
     end
   end
@@ -77,11 +83,34 @@ class Game
     @actions.clear
   end
 
+  def set_deadline(usec)
+    t0 = Time.now.usec
+    t1 = t0 + usec
+    if t1 >= 1000000
+      @deadline_range = (t1 - 1000000)..t0
+      @deadline_cover = false
+    else
+      @deadline_range = t0..t1
+      @deadline_cover = true
+    end
+  end
+
+  def time_up?
+    t = Time.now.usec
+    @deadline_range.cover?(t) != @deadline_cover
+  end
+
   def update_board
+    @current_operation = Fiber.new { update_board_fiber }
+  end
+
+  def update_board_fiber
     @board.each do |_k, tc|
       score = @board.each_adjacent(tc[:coordinate]).count { |ta| ta[:tile] == :grass }
 
       tc[:new_tile] = :grass if score > 1
+
+      Fiber.yield if time_up?
     end
 
     @board.each do |_k, t|
@@ -89,6 +118,8 @@ class Game
         t[:tile] = t[:new_tile]
         t.delete :new_tile
       end
+
+      Fiber.yield if time_up?
     end
   end
 end
