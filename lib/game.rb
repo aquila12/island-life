@@ -3,19 +3,23 @@
 require 'lib/cube_coord.rb'
 require 'lib/island_map.rb'
 require 'lib/profiler.rb'
+require 'lib/draw_window.rb'
 
 # Class to encapsulate the whole game state
 class Game
   NUM_ACTIONS = 3
 
   def initialize(args)
-    @outputs = args.outputs
-    @inputs = args.inputs
+    @args = args
+    #CubeCoord.size = 8
+    #CubeCoord.default_origin = [32, 32]
+    @window = DrawWindow.new(args, 1280, 720, 1)
+    #@window = DrawWindow.new(args, 64, 64, 11)
     @board = IslandMap.new(4)
     @actions = []
 
     @profiler = {
-      island_update: Profiler.new("Island Update", 5)
+      island_update: Profiler.new('Island Update', 5)
     }
   end
 
@@ -25,10 +29,10 @@ class Game
   end
 
   def do_input
-    i = @inputs
+    i = @args.inputs
     if i.mouse.click
       case
-      when i.mouse.button_left then place_action(i.mouse.position)
+      when i.mouse.button_left then place_action(@window.mouse_position)
       when i.mouse.button_right then commit_action
       when i.mouse.button_middle
         @profiler[:island_update].profile { update_board }
@@ -38,11 +42,12 @@ class Game
   end
 
   def do_output
-    o = @outputs
+    o = @window.outputs
     @board.draw o
 
     @actions.each { |item| o.borders << item[:rectangle] }
-    o.labels << [8, 720 - 8, @status] if @status
+    @window.draw
+    @args.outputs.labels << [8, 720 - 8, @status, 192, 0, 0] if @status
   end
 
   private
