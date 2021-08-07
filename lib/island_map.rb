@@ -36,7 +36,7 @@ class IslandMap < Hash
     Enumerator.new do |yielder|
       centre.round.ring(1) do |coord|
         k = coord.to_axial
-        yielder << self[k] if self.key? k
+        yielder << self[k] if key? k
       end
     end.each(&block)
   end
