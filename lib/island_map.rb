@@ -27,8 +27,8 @@ class IslandMap < Hash
   def draw(outputs)
     values.each do |item|
       tile = TILE[item[:tile]]
-      outputs.solids << rect_around(item[:point], CubeCoord::SIZE / 2 - 1, *tile[:fill])
-      outputs.borders << rect_around(item[:point], CubeCoord::SIZE / 2, *tile[:line])
+      outputs.solids << rect_around(item[:point], CubeCoord.size / 2 - 1, *tile[:fill])
+      outputs.borders << rect_around(item[:point], CubeCoord.size / 2, *tile[:line])
     end
   end
 

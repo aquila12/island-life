@@ -1,20 +1,44 @@
 # frozen_string_literal: true
 
-# Class to encapsulate the whole game state
+# Class to handle hexes in cube coordinates
 class CubeCoord
-  SIZE = 40.0 # Flat to flat
-  ROOT_3 = 3 ** 0.5
+  ROOT_3 = 3**0.5
 
-  ROOT_3_SIZE = SIZE * ROOT_3
+  class << self
+    def size=(size)
+      @size = size.to_f
+      @root3_size = @size * ROOT_3
+    end
 
-  DEFAULT_ORIGIN = [640, 360]
+    attr_accessor :default_origin
+    attr_reader :size
+
+    def [](*coords)
+      new(*coords)
+    end
+
+    def from_axial(p, q)
+      new(-(p + q), p, q)
+    end
+
+    def from_point(pt, origin = @default_origin)
+      x, y = pt.x - origin.x, pt.y - origin.y
+      y_r3s = y / @root3_size
+      x_s = x / @size
+      from_axial(x_s + y_r3s, -2 * y_r3s)
+    end
+
+    def axial_to_point(ax, origin)
+      q = ax.y / 2.0
+      [origin.x + @size * (ax.x + q), origin.y - @root3_size * q]
+    end
+  end
+
+  self.size = 40.0 # Flat to flat
+  @default_origin = [640, 360]
 
   def initialize(x, y, z)
     @x, @y, @z = x, y, z
-  end
-
-  def self.[](*coords)
-    new(*coords)
   end
 
   attr_reader :x, :y, :z
@@ -23,21 +47,8 @@ class CubeCoord
     [@y, @z]
   end
 
-  def self.from_axial(p, q)
-    new(-(p + q), p, q)
-  end
-
-  def to_point(origin = DEFAULT_ORIGIN)
-    p, q = to_axial
-    q_2 = q / 2.0
-    [origin.x + SIZE * (p + q_2),  origin.y - ROOT_3_SIZE * q_2]
-  end
-
-  def self.from_point(pt, origin = DEFAULT_ORIGIN)
-    x, y = pt.x - origin.x, pt.y - origin.y
-    y_r3s = y / ROOT_3_SIZE
-    x_s = x / SIZE
-    from_axial(x_s + y_r3s, -2 * y_r3s)
+  def to_point(origin = self.class.default_origin)
+    self.class.axial_to_point(to_axial, origin)
   end
 
   def to_s
