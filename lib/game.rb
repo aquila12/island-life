@@ -52,7 +52,7 @@ class Game
 
   def draw_actions
     o = @window.outputs
-    @actions.sort { |e| e[:position].y }.each_with_index do |item, index|
+    @actions.sort { |e| -e[:position].y }.each_with_index do |item, index|
       o.sprites << rain_above(item[:position], (index + @args.tick_count) / 3)
       o.sprites << rain_cloud_above(item[:position])
     end
