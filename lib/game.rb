@@ -6,7 +6,7 @@ class Game
 
   def initialize(args)
     @args = args
-    CubeCoord.size = 7
+    CubeCoord.size = 6
     CubeCoord.default_origin = [32, 32]
     @window = DrawWindow.new(args, 64, 64, 11)
     @board = IslandMap.new(4)
