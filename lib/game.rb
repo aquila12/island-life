@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require 'lib/cube_coord.rb'
-require 'lib/island_map.rb'
-require 'lib/profiler.rb'
-require 'lib/draw_window.rb'
-
 # Class to encapsulate the whole game state
 class Game
   NUM_ACTIONS = 3
