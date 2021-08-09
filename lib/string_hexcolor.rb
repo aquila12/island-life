@@ -1,4 +1,8 @@
-# frozen_string_literal: true
+# Copyright 2021 Nick Moriarty
+#
+# This file is provided under the term of the Eclipse Public License, the full
+# text of which can be found in EPL-2.0.txt in the licenses directory of this
+# repository.
 
 # Monkey patch on String to do extract hex colour as an array [r, g, b, a]
 class String
