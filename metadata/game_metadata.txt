@@ -3,3 +3,4 @@ devtitle=Nick Moriarty
 gameid=island-life
 gametitle=Island Life
 version=0.1
+icon=resources/tile.png
