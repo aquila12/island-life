@@ -11,7 +11,7 @@ class Game
 
   def initialize(args)
     @args = args
-    CubeCoord.size = 8
+    CubeCoord.size = 7
     CubeCoord.default_origin = [32, 32]
     @window = DrawWindow.new(args, 64, 64, 11)
     @board = IslandMap.new(4)
@@ -66,7 +66,7 @@ class Game
     c = CubeCoord.from_point(point).round!
     if @actions.length < NUM_ACTIONS && @board.key?(c.to_axial)
       @actions << {
-        rectangle: rect_around(c.to_point, 3, 0, 192, 0),
+        rectangle: rect_around(c.to_point, 2, 0, 192, 0),
         coord: c
       }
     end
