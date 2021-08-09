@@ -1,0 +1,5 @@
+devid=aquila12
+devtitle=Nick Moriarty
+gameid=island-life
+gametitle=Island Life
+version=0.1
