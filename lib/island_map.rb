@@ -8,11 +8,11 @@ class IslandMap < Hash
 
     case hc.length
     when 1, 3, 4
-      channels = hc.chars.map { |c| c.to_i(16) * 0x11 }
+      channels = hc.chars.map { |c| c.hex * 0x11 }
     when 2, 6, 8
       channels = []
       until hc.empty? do
-        channels << hc.slice!(0,2).to_i(16)
+        channels << hc.slice!(0,2).hex
       end
     else return [0, 0, 0, 255]
     end
