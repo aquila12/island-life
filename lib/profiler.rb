@@ -13,7 +13,7 @@ class Profiler
     @label = label
     @samples = samples
     f = format
-    @format = "#{@label}: last #{f}ms / avg #{f}ms / min #{f}ms / max #{f}ms /" \
+    @format = "#{@label}: last #{f}ms / avg #{f}ms / min #{f}ms / max #{f}ms /" +
               " jitter #{f}ms over %d samples"
     @ticktimes = []
     @total = 0
