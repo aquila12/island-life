@@ -11,10 +11,9 @@ class Game
 
   def initialize(args)
     @args = args
-    #CubeCoord.size = 8
-    #CubeCoord.default_origin = [32, 32]
-    @window = DrawWindow.new(args, 1280, 720, 1)
-    #@window = DrawWindow.new(args, 64, 64, 11)
+    CubeCoord.size = 8
+    CubeCoord.default_origin = [32, 32]
+    @window = DrawWindow.new(args, 64, 64, 11)
     @board = IslandMap.new(4)
     @actions = []
 
