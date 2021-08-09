@@ -3,7 +3,7 @@
 # Class to encapsulate the whole game state
 class IslandMap < Hash
   TILE = {
-    waste: { tint: '#9'.hexcolor, fill: [160, 160, 160], line: [120, 120, 120] },
+    waste: { tint: '#fc9'.hexcolor, fill: [160, 160, 160], line: [120, 120, 120] },
     grass: { tint: '#090'.hexcolor, fill: [0, 160, 0], line: [0, 120, 0] }
   }
 

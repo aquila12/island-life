@@ -45,9 +45,35 @@ class Game
     o = @window.outputs
     @board.draw o
 
-    @actions.each { |item| o.borders << item[:rectangle] }
+    draw_actions
     @window.draw
     @args.outputs.labels << [8, 720 - 8, @status, 192, 0, 0] if @status
+  end
+
+  def draw_actions
+    o = @window.outputs
+    @actions.each_with_index do |item, index|
+      o.sprites << rain_above(item[:position], (index + @args.tick_count) >> 1)
+      o.sprites << rain_cloud_above(item[:position])
+    end
+  end
+
+  def rain_cloud_above(position)
+    {
+      x: position.x - 3, y: position.y + 3, w: 7, h: 4,
+      source_w: 7, source_h: 4,
+      source_x: 0, source_y: 13,
+      path: 'resources/raincloud.png'
+    }
+  end
+
+  def rain_above(position, frame)
+    {
+      x: position.x - 3, y: position.y-1, w: 7, h: 4,
+      source_w: 7, source_h: 3,
+      source_x: 0, source_y: frame % 12,
+      path: 'resources/raincloud.png'
+    }
   end
 
   private
@@ -61,7 +87,7 @@ class Game
     c = CubeCoord.from_point(point).round!
     if @actions.length < NUM_ACTIONS && @board.key?(c.to_axial)
       @actions << {
-        rectangle: rect_around(c.to_point, 2, 0, 192, 0),
+        position: c.to_point,
         coord: c
       }
     end
