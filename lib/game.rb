@@ -60,7 +60,7 @@ class Game
 
   def rain_cloud_above(position)
     {
-      x: position.x - 3, y: position.y + 3, w: 7, h: 4,
+      x: position.x - 3, y: position.y + 2, w: 7, h: 4,
       source_w: 7, source_h: 4,
       source_x: 0, source_y: 13,
       path: 'resources/raincloud.png'
@@ -69,9 +69,9 @@ class Game
 
   def rain_above(position, frame)
     {
-      x: position.x - 3, y: position.y-1, w: 7, h: 4,
+      x: position.x - 3, y: position.y-1, w: 7, h: 3,
       source_w: 7, source_h: 3,
-      source_x: 0, source_y: frame % 12,
+      source_x: 0, source_y: frame.to_i % 11,
       path: 'resources/raincloud.png'
     }
   end
