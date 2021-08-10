@@ -101,7 +101,14 @@ class Game
   def commit_action
     @actions.each do |a|
       c = a[:coord]
-      @board[c.to_axial][:tile] = :grass
+      tc = @board[c.to_axial]
+
+      case tc[:tile]
+      when :waste then tc[:tile] = :grass
+      when :grass then tc[:tile] = :forest
+      when :forest then tc[:tile] = :old_forest
+      end
+
     end
     @actions.clear
   end
@@ -127,11 +134,47 @@ class Game
     @current_operation = Fiber.new { update_board_fiber }
   end
 
+TILE_STATS = {
+  waste: {},
+  grass: {vegetation: 1},
+  forest: {vegetation: 2},
+  old_forest: {vegetation: 4}
+}
+
   def update_board_fiber
     @board.each do |_k, tc|
-      score = @board.each_adjacent(tc[:coordinate]).count { |ta| ta[:tile] == :grass }
 
-      tc[:new_tile] = :grass if score > 1
+      # score = @board.each_adjacent(tc[:coordinate]).count { |ta| ta[:tile] == :grass }
+
+      vegetation_score = 1
+
+      # tc[:new_tile] = :grass if score > 1
+      case tc[:tile]
+      when :waste
+        tc[:new_tile] = :grass if vegetation_score > 1
+      when :grass
+        if vegetation_score > 5
+          tc[:new_tile] = :forest
+        elsif vegetation_score < 2
+          tc[:new_tile] = :waste
+        end
+      when :forest
+        if vegetation_score > 11
+          tc[:new_tile] = :old_forest
+        elsif vegetation_score < 6
+          tc[:new_tile] = :grass
+        elsif vegetation_score < 2
+          tc[:new_tile] = :waste
+        end
+      when :old_forest
+        if vegetation_score < 12
+          tc[:new_tile] = :forest
+        elsif vegetation_score < 6
+          tc[:new_tile] = :grass
+        elsif vegetation_score < 2
+          tc[:new_tile] = :waste
+        end
+      end
 
       Fiber.yield if time_up?
     end
