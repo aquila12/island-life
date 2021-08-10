@@ -130,20 +130,21 @@ class Game
   end
 
   def tile_stats(tile)
-    stats = Hash.new(0).merge!(tile[:action_stats])
+    stats = Hash.new(0)
+    stats.merge! tile[:action_stats] if tile.key?(:action_stats)
 
     @board.each_adjacent(tile[:coordinate]) do |ta|
       t = ta[:tile]
-      TILE_STATS[t].each { |stat, value| stats[stat] += value }
+      RulesStats::TILE_STATS[t].each { |stat, value| stats[stat] += value }
     end
 
     stats
   end
 
   def update_board_fiber
-    @board.each do |_k, tile| do
-      stats = tile_stats(tile)
-      RulesStats::check_update tc, atc
+    @board.each do |_k, tile|
+      new_tile = RulesStats.check_update tile, tile_stats(tile)
+      tile[:new_tile] = new_tile if new_tile
 
       Fiber.yield if time_up?
     end
@@ -151,7 +152,8 @@ class Game
     @board.each do |_k, t|
       if t.key? :new_tile
         t[:tile] = t[:new_tile]
-        t.delete :new_tile, :action_stats
+        t.delete :new_tile
+        t.delete :action_stats
       end
 
       Fiber.yield if time_up?
