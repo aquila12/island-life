@@ -58,6 +58,7 @@ class Game
     end
   end
 
+  # TODO: Move the animation code somewhere else
   def rain_cloud_above(position)
     {
       x: position.x - 3, y: position.y + 2, w: 7, h: 4,
@@ -75,9 +76,11 @@ class Game
       path: 'resources/raincloud.png'
     }
   end
+  # TODO: CUT HERE =======
 
   private
 
+  # TODO: Remove
   def rect_around(pt, radius, *args)
     d = radius * 2 + 1
     [pt.x - radius, pt.y - radius, d, d, *args]
