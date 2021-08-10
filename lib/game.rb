@@ -100,9 +100,11 @@ class Game
 
   def commit_action
     @actions.each do |a|
-      c = a[:coord]
-      @board[c.to_axial][:tile] = :grass
+      c = a[:coord].to_axial
+      tc = @board[c]
+      @board[c][:action_stats] = RulesStats::ACTION_STATS[:rain]
     end
+
     @actions.clear
   end
 
@@ -127,11 +129,21 @@ class Game
     @current_operation = Fiber.new { update_board_fiber }
   end
 
-  def update_board_fiber
-    @board.each do |_k, tc|
-      score = @board.each_adjacent(tc[:coordinate]).count { |ta| ta[:tile] == :grass }
+  def tile_stats(tile)
+    stats = Hash.new(0).merge!(tile[:action_stats])
 
-      tc[:new_tile] = :grass if score > 1
+    @board.each_adjacent(tile[:coordinate]) do |ta|
+      t = ta[:tile]
+      TILE_STATS[t].each { |stat, value| stats[stat] += value }
+    end
+
+    stats
+  end
+
+  def update_board_fiber
+    @board.each do |_k, tile| do
+      stats = tile_stats(tile)
+      RulesStats::check_update tc, atc
 
       Fiber.yield if time_up?
     end
@@ -139,7 +151,7 @@ class Game
     @board.each do |_k, t|
       if t.key? :new_tile
         t[:tile] = t[:new_tile]
-        t.delete :new_tile
+        t.delete :new_tile, :action_stats
       end
 
       Fiber.yield if time_up?
