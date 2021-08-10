@@ -43,6 +43,7 @@ class Game
 
   def do_output
     o = @window.outputs
+    o.background_color = '#036'.hexcolor
     @board.draw o
 
     draw_actions
@@ -102,7 +103,7 @@ class Game
     @actions.each do |a|
       c = a[:coord].to_axial
       tc = @board[c]
-      @board[c][:action_stats] = RulesStats::ACTION_STATS[:rain]
+      @board[c].action_stats = { rainfall: 1 }
     end
 
     @actions.clear
@@ -131,12 +132,11 @@ class Game
 
   def tile_stats(tile)
     stats = Hash.new(0)
-    stats.merge! tile[:action_stats] if tile.key?(:action_stats)
+    stats.merge! tile.action_stats
 
-    @board.each_adjacent(tile[:coordinate]) do |ta|
-      t = ta[:tile]
+    @board.each_adjacent(tile.coord) do |ta|
       stats[:land] += 1
-      RulesStats::TILE_STATS[t].each { |stat, value| stats[stat] += value }
+      ta.class.stats.each { |stat, value| stats[stat] += value }
     end
     stats[:coast] = 6 - stats[:land]
 
@@ -145,20 +145,18 @@ class Game
 
   def update_board_fiber
     @board.each do |_k, tile|
-      new_tile = RulesStats.check_update tile, tile_stats(tile)
-      tile[:new_tile] = new_tile if new_tile
+      tile.stats = tile_stats(tile)
+      tile.update
 
       Fiber.yield if time_up?
     end
 
-    @board.each do |_k, t|
-      if t.key? :new_tile
-        t[:tile] = t[:new_tile]
-        t.delete :new_tile
-        t.delete :action_stats
-      end
-
+    @board.transform_values! do |tile|
       Fiber.yield if time_up?
+
+      tile.stats = {}
+      tile.action_stats = {}
+      tile.new_tile
     end
   end
 end
