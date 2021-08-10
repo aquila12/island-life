@@ -135,8 +135,10 @@ class Game
 
     @board.each_adjacent(tile[:coordinate]) do |ta|
       t = ta[:tile]
+      stats[:land] += 1
       RulesStats::TILE_STATS[t].each { |stat, value| stats[stat] += value }
     end
+    stats[:coast] = 6 - stats[:land]
 
     stats
   end
