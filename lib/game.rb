@@ -10,7 +10,7 @@ class Game
     CubeCoord.default_origin = [32, 32]
     @window = DrawWindow.new(args, 64, 64, 11)
     @board = IslandMap.new(4)
-    @actions = []
+    @actions = {}
 
     @fiber_profiler = Profiler.new('Fiber', 10)
   end
@@ -53,7 +53,7 @@ class Game
 
   def draw_actions
     o = @window.outputs
-    @actions.sort { |e| -e[:position].y }.each_with_index do |item, index|
+    @actions.values { |e| -e[:position].y }.each_with_index do |item, index|
       o.sprites << rain_above(item[:position], (index + @args.tick_count) / 3)
       o.sprites << rain_cloud_above(item[:position])
     end
@@ -89,8 +89,13 @@ class Game
 
   def place_action(point)
     c = CubeCoord.from_point(point).round!
-    if @actions.length < NUM_ACTIONS && @board.key?(c.to_axial)
-      @actions << {
+    axial = c.to_axial
+    return unless @board.key?(axial)
+
+    if @actions.key?(axial)
+      @actions.delete(axial)
+    elsif @actions.length < NUM_ACTIONS
+      @actions[axial] = {
         position: c.to_point,
         coord: c
       }
@@ -100,9 +105,7 @@ class Game
   end
 
   def commit_action
-    @actions.each do |a|
-      c = a[:coord].to_axial
-      tc = @board[c]
+    @actions.each do |c, a|
       @board[c].action_stats = { rainfall: 1 }
     end
 
