@@ -10,4 +10,6 @@ require 'lib/tile.rb'
 require 'lib/island_map.rb'
 require 'lib/tile_types.rb'
 
+require 'lib/rain_cloud.rb'
+
 require 'lib/game.rb'
