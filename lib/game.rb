@@ -78,12 +78,6 @@ class Game
 
   private
 
-  # TODO: Remove
-  def rect_around(pt, radius, *args)
-    d = radius * 2 + 1
-    [pt.x - radius, pt.y - radius, d, d, *args]
-  end
-
   def place_action(point)
     c = CubeCoord.from_point(point).round!
     axial = c.to_axial
