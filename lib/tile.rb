@@ -54,10 +54,6 @@ class Tile
     @new_class&.new(@coord) || self
   end
 
-  def method_missing(name, *args)
-    @stats[name]
-  end
-
   def update
     behaviour
   end
