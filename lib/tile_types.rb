@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 module TileTypes
-  ACTION_provides = {
-    rain: { rainfall: 1 }
-  }
-
   class Waste < Tile
     appearance '#fc9'
 
