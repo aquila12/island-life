@@ -17,10 +17,7 @@ class Game
 
   def tick
     if @current_operation&.alive?
-      @fiber_profiler.profile do
-        set_deadline(5000)
-        @current_operation.resume
-      end
+      @fiber_profiler.profile { @current_operation.time_slice(5000) }
       @status = @fiber_profiler.report
     else
       do_input
@@ -112,25 +109,21 @@ class Game
     @actions.clear
   end
 
-  def set_deadline(usec)
-    t0 = Time.now.usec
-    t1 = t0 + usec
-    if t1 >= 1000000
-      @deadline_range = (t1 - 1000000)..t0
-      @deadline_cover = false
-    else
-      @deadline_range = t0..t1
-      @deadline_cover = true
-    end
-  end
-
-  def time_up?
-    t = Time.now.usec
-    @deadline_range.cover?(t) != @deadline_cover
-  end
-
   def update_board
-    @current_operation = Fiber.new { update_board_fiber }
+    @current_operation = BackgroundTask.new do |task|
+      @board.each do |_k, tile|
+        set_tile_stats(tile)
+        tile.update
+
+        task.yield
+      end
+
+      @board.transform_values! do |tile|
+        task.yield
+
+        tile.new_tile
+      end
+    end
   end
 
   def set_tile_stats(tile)
@@ -139,20 +132,5 @@ class Game
       ta.class.products.each { |stat, value| tile.stats[stat] += value }
     end
     tile.stats[:coast] = 6 - tile.stats[:land]
-  end
-
-  def update_board_fiber
-    @board.each do |_k, tile|
-      set_tile_stats(tile)
-      tile.update
-
-      Fiber.yield if time_up?
-    end
-
-    @board.transform_values! do |tile|
-      Fiber.yield if time_up?
-
-      tile.new_tile
-    end
   end
 end
