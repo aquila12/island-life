@@ -17,13 +17,13 @@ module RulesStats
     when :waste
       :grass if stats[:vegetation] > 1 || stats[:rainfall] > 0
     when :grass
-      if stats[:vegetation] > 5 || stats[:rainfall] > 0
+      if stats[:vegetation] > 5 && stats[:rainfall] > 0 || stats[:vegetation] > 7
         :forest
       elsif stats[:vegetation] < 2
         :waste
       end
     when :forest
-      if stats[:vegetation] > 11 || stats[:rainfall] > 0
+      if stats[:vegetation] > 11 && stats[:rainfall] > 0 || stats[:vegetation] > 15
         :old_forest
       elsif stats[:vegetation] < 6
         :grass
