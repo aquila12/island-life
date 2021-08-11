@@ -106,7 +106,7 @@ class Game
 
   def commit_action
     @actions.each do |c, a|
-      @board[c].action_stats = { rainfall: 1 }
+      @board[c].stats[:rainfall] += 1
     end
 
     @actions.clear
@@ -133,22 +133,17 @@ class Game
     @current_operation = Fiber.new { update_board_fiber }
   end
 
-  def tile_stats(tile)
-    stats = Hash.new(0)
-    stats.merge! tile.action_stats
-
+  def set_tile_stats(tile)
     @board.each_adjacent(tile.coord) do |ta|
-      stats[:land] += 1
-      ta.class.stats.each { |stat, value| stats[stat] += value }
+      tile.stats[:land] += 1
+      ta.class.products.each { |stat, value| tile.stats[stat] += value }
     end
-    stats[:coast] = 6 - stats[:land]
-
-    stats
+    tile.stats[:coast] = 6 - tile.stats[:land]
   end
 
   def update_board_fiber
     @board.each do |_k, tile|
-      tile.stats = tile_stats(tile)
+      set_tile_stats(tile)
       tile.update
 
       Fiber.yield if time_up?
@@ -157,8 +152,6 @@ class Game
     @board.transform_values! do |tile|
       Fiber.yield if time_up?
 
-      tile.stats = {}
-      tile.action_stats = {}
       tile.new_tile
     end
   end
