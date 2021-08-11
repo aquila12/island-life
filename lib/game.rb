@@ -34,8 +34,8 @@ class Game
     if i.mouse.click
       case
       when i.mouse.button_left then place_action(@window.mouse_position)
-      when i.mouse.button_right then commit_action
-      when i.mouse.button_middle
+      when i.mouse.button_right
+        commit_action
         @current_operation = update_board
       end
     end
