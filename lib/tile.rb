@@ -5,36 +5,29 @@ class Tile
   attr_sprite
 
   class << self
-    def inherited(subclass)
-      subclass.instance_eval do
-        @stats = Hash.new(0)
-      end
+    def products
+      @stats ||= {}
     end
 
-    def provides(**args)
-      @stats.merge! args
+    def provides(**new_products)
+      products.merge! new_products
     end
 
     def appearance(tint)
       @tint = tint.hexcolor
     end
 
-    def behaviour(&block)
-      @behaviour = block
-    end
-
-    attr_reader :stats, :tint
+    attr_reader :tint
   end
 
   def initialize(coord)
     @coord = coord
     @stats = Hash.new(0)
-    @action_stats = Hash.new(0)
     init_sprite
   end
 
   attr_reader :coord
-  attr_accessor :stats, :action_stats
+  attr_accessor :stats
 
   def init_sprite
     pos = @coord.to_point
@@ -54,11 +47,8 @@ class Tile
     @new_class&.new(@coord) || self
   end
 
-  def method_missing(name, *args)
-    @stats[name]
-  end
-
   def update
     behaviour
+    @stats.clear
   end
 end
