@@ -57,10 +57,16 @@ module TileTypes
   class Mountain < Tile
     provides cliffs: 1
     appearance '#c'
+
+    def behaviour
+    end
   end
 
   class Lake < Tile
     provides fish: 1
-    appearance '#36c'
+    appearance '#69c'
+
+    def behaviour
+    end
   end
 end
