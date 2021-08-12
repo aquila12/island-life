@@ -2,6 +2,7 @@
 
 module TileTypes
   class Waste < Tile
+    provides sand: 1
     appearance '#fc9'
 
     def behaviour
@@ -10,7 +11,7 @@ module TileTypes
   end
 
   class Grass < Tile
-    provides vegetation: 1
+    provides vegetation: 1, grazing: 1
     appearance '#2f2'
 
     def behaviour
@@ -23,7 +24,8 @@ module TileTypes
   end
 
   class Forest < Tile
-    provides vegetation: 2
+    provides vegetation: 2, trees: 1, cover: 1, forage: 1
+    provides rodent: 1 # Macro approximation
     appearance '#2a2'
 
     def behaviour
@@ -38,7 +40,7 @@ module TileTypes
   end
 
   class OldForest < Tile
-    provides vegetation: 4
+    provides vegetation: 4, trees: 2, cover: 2, mana: 1, forage: 1
     appearance '#252'
 
     def behaviour
@@ -50,5 +52,15 @@ module TileTypes
         replace_with Waste
       end
     end
+  end
+
+  class Mountain < Tile
+    provides cliffs: 1
+    appearance '#c'
+  end
+
+  class Lake < Tile
+    provides fish: 1
+    appearance '#36c'
   end
 end
