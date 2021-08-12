@@ -11,22 +11,34 @@
 	Terrain
 		Wastes(?)
 			- Base tiles; what grasslands decay into
-		Grasslands
+		Grasslands [1]
 			- Basis for everything else
 			- Wastes with 2 grass adjacent will become grass
 			- Need 2 adjacent grass to survive
 		New Forest(?)
 			- Grasslands surrounded by grasslands or better become New Forest
 			- Needs 4 adjacent grassland+ to survive
-		Forest
+		Forest [2]
 			-
-		Ancient Forest(?)
+		Ancient Forest [4]
 			- Forests surrounded by other forests become Ancient Forests
 			- Need to be surrounded by forest to survive
 			-
 
 	Wildlife
 		Each tier of terrain could support an extra species in a tile (grasslands 1, new forest 2 etc.)
+
+		Aminals
+			Buffalo: Grass surrounded by grass
+			Fucking Unicorns: Grassland surrounded by Old Forest
+			Tigers: Forest next to grassland
+			Eagle: Mountains surrounded by Forest
+			Goats: Grassland surrounded by Mountains
+			Crabs: Beach
+			Squirrels: Forest surrounded by forest
+			Bear: Forest next to lake
+			Ents: Old forest surrounded by forest
+
 
 		Herbivore
 			- Needs a certain tier of terrain to support advanced species
