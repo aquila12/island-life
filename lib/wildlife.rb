@@ -36,6 +36,11 @@ class Wildlife
     init_registry
   end
 
+  def animal_at(axial)
+    return '' unless @animals.key? axial
+    @animals[axial][:name].to_s
+  end
+
   def init_registry
     @registry = {}
     ANIMALS.each_with_index do |a, i|

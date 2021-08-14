@@ -47,6 +47,10 @@ class Tile
     @new_class&.new(@coord) || self
   end
 
+  def name
+    self.class.name.split('::').last
+  end
+
   def update
     behaviour
     @stats.clear
