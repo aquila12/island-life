@@ -15,7 +15,9 @@ module TileTypes
     appearance '#2f2'
 
     def behaviour
-      if @stats[:vegetation] > 5 && @stats[:rainfall] > 0 || @stats[:vegetation] > 8
+      if @stats[:mana] > 5
+        replace_with Glade
+      elsif @stats[:vegetation] > 5 && @stats[:rainfall] > 0 || @stats[:vegetation] > 8
         replace_with Forest
       elsif  @stats[:vegetation] < 2
         replace_with Waste
@@ -67,6 +69,17 @@ module TileTypes
     appearance '#69c'
 
     def behaviour
+    end
+  end
+
+  class Glade < Tile
+    provides vegetation: 1, grazing: 1
+    appearance '#af2'
+
+    def behaviour
+      if @stats[:mana] < 6
+        replace_with Grass
+      end
     end
   end
 end
