@@ -78,6 +78,7 @@ class Game
       @board.fill_tiles(centre, 5, TileTypes::Waste)
       task.yield
       @board.erode(centre, 5, 0.5)
+      @board.erode(centre, 4, 0.2)
       task.yield
     end
   end
