@@ -21,6 +21,7 @@ class Wildlife
     [:Griffin, '#909', { cliffs: 1 }, { cover: 8 }, 1.0],
     [:Kangaroo, '#00f', { grazing: 1 }, { fish: 4 }, 1.0],
     [:Koala, '#ccc', { forage: 1 }, { fish: 4 }, 1.0],
+    [:kraken, '#636', { fish: 1}, { fish: 6}, 1.0],
     [:Mummy, '#b90', { sand: 1 }, { cliffs: 4 }, 1.0],
     [:Naiads, '#0dd', { fish: 1 }, { mana: 6 }, 1.0],
     [:Tiger, '#f90', { cover: 1 }, { grazing: 4 }, 1.0],
