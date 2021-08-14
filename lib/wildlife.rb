@@ -9,14 +9,14 @@ class Wildlife
     end
   end
 
-  SPAWN_MULT = 1
+  SPAWN_MULT = 0.5
   ANIMALS = table(
     %i[name colour home_needs roaming_needs spawn_chance],
     [:bear, '#960', { forage: 1 }, { fish:1, forage: 4 }, 0.2],
-    [:buffalo, '#630', { grazing: 1 }, { grazing: 4 }, 0.02],
-    [:crab, '#f66', { sand: 1 }, { coast: 2, grazing: 2 }, 0.02],
+    [:buffalo, '#630', { grazing: 1 }, { grazing: 4 }, 0.05],
+    [:crab, '#f66', { sand: 1 }, { coast: 2, grazing: 2 }, 0.05],
     [:deer, '#c93', { cover: 1 }, { cover: 3, grazing: 2 }, 0.2],
-    [:dragon, '#f00', { cliffs: 1 }, { sand: 4 }, 0.2],
+    [:dragon, '#f00', { cliffs: 1 }, { grazing: 4, mana: 2 }, 0.2],
     [:eagle, '#b8d', { cliffs: 1 }, { forage: 4 }, 0.2],
     [:elk, '#ff0', { cover: 1 }, { cover: 6, forage: 4 }, 0.2],
     [:ent, '#0a0', { mana: 1 }, { forage: 3 }, 1.0],
@@ -27,7 +27,7 @@ class Wildlife
     [:koala, '#ccc', { forage: 1 }, { coast: 4 }, 0.2],
     [:kraken, '#636', { fish: 1}, { fish: 6}, 0.2],
     [:mummy, '#b90', { sand: 1 }, { cliffs: 4 }, 0.2],
-    [:naiads, '#0dd', { fish: 1 }, { mana: 6 }, 0.2],
+    [:naiad, '#0dd', { fish: 1 }, { mana: 6 }, 0.2],
     [:tiger, '#f90', { cover: 1 }, { grazing: 3 }, 0.2],
     [:unicorn, '#fff', { grazing: 1 }, { mana: 6 }, 0.2]
   )
