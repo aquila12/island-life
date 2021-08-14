@@ -4,10 +4,10 @@
 class Game
   NUM_ACTIONS = 3
   ACTIONS = [
-    { sprite_class: RainCloud, provides: { rainfall: 1 } },
-    { sprite_class: RainCloud2, provides: { water: 1} },
-    { sprite_class: Fire, provides: { flames: 1 } },
-    { sprite_class: Earthquake, provides: { vibes: 1 } }
+    { sprite_class: RainCloud, provides: { rainfall: 1 }, colour: '#69c' },
+    { sprite_class: RainCloud2, provides: { water: 1 }, colour: '#036' },
+    { sprite_class: Fire, provides: { flames: 1 }, colour: '#c63' },
+    { sprite_class: Earthquake, provides: { vibes: 1 }, colour: '#390' }
   ]
 
   def initialize(args)
@@ -24,7 +24,7 @@ class Game
     @fiber_profiler = Profiler.new('Fiber', 10)
     @font_profiler = Profiler.new('FontPrep', 10)
 
-    @current_action = 0
+    change_tool
   end
 
   def tick
@@ -64,6 +64,7 @@ class Game
 
     o.sprites << @status_text
     o.sprites << [56, 0, 8, 16, 'resources/toolbar.png']
+    o.sprites << @tool_sprites
 
     o.sprites << @actions.values.map { |a| a[:sprite] }.sort { |a| a.y }
     @window.draw
@@ -89,8 +90,15 @@ class Game
   end
 
   def change_tool
-    @current_action += 1
+    @current_action = @current_action ? @current_action + 1 : 0
     @current_action = 0 unless @current_action < ACTIONS.length
+
+    action = ACTIONS[@current_action]
+    tile_colour = action[:colour].hexcolor
+    @tool_sprites = [
+      [57, 56, 7, 8, 'resources/tile.png', 0, tile_colour[3], *tile_colour[0..2]],
+      ACTIONS[@current_action][:sprite_class].new([60, 60])
+    ]
   end
 
   def place_action(point)
@@ -101,7 +109,7 @@ class Game
     if @actions.length < NUM_ACTIONS || @actions.key?(axial)
       action = ACTIONS[@current_action]
       @actions[axial] = {
-        sprite: action[:sprite_class].new(c),
+        sprite: action[:sprite_class].new(c.to_point),
         stats: action[:provides]
       }
       @args.outputs.sounds << 'resources/drip.wav'
