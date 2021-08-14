@@ -39,10 +39,6 @@ class Tile
     @path = 'resources/tile.png'
   end
 
-  def replace_with(tile_class)
-    @new_class = tile_class
-  end
-
   def new_tile
     @new_class&.new(@coord) || self
   end
@@ -52,7 +48,7 @@ class Tile
   end
 
   def update
-    behaviour
+    @new_class = behaviour
     @stats.clear
   end
 end

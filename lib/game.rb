@@ -5,7 +5,7 @@ class Game
   NUM_ACTIONS = 3
   ACTIONS = {
   rain: { sprite_class: RainCloud, provides: { rainfall: 1 } },
-  #flood: { sprite_class: Waters, provides: {water: 1}},
+  flood: { sprite_class: RainCloud2, provides: {water: 1}}
   # fire: { sprite_class:Flames,provides: {flames:1}},
   # earthquake:{sprite_class:Tremors,provides:{vibes:1}}
 }
@@ -88,8 +88,7 @@ class Game
     axial = c.to_axial
     return unless @board.key?(axial)
 
-    @actions.length < NUM_ACTIONS
-    @actions[axial] = RainCloud.new(c)
+    @actions[axial] = RainCloud2.new(c) if @actions.length < NUM_ACTIONS
     @args.outputs.sounds << 'resources/drip.wav'
   end
 
