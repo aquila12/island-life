@@ -13,6 +13,7 @@ class Game
     @wildlife = Wildlife.new
     @current_operation = initialize_board
     @actions = {}
+    @font = MiniFont.new('resources/font.png', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 4, 5)
 
     @fiber_profiler = Profiler.new('Fiber', 10)
   end
