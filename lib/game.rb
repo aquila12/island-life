@@ -63,7 +63,7 @@ class Game
       @actions[axial] = RainCloud.new(c)
     end
 
-    @status = c.to_s
+    # @status = c.to_s
   end
 
   def commit_action
