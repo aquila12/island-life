@@ -5,6 +5,7 @@ class RainCloud
     @coord = coord
     @x, @y = coord.to_point
     @rain_y = 4.0
+    @path = 'resources/raincloud.png'
   end
 
   attr_reader :x, :y
@@ -24,7 +25,7 @@ class RainCloud
 
   def draw_fragment(canvas, x, y, w, h, tx, ty)
     canvas.draw_sprite_3(
-      x, y, w, h, 'resources/raincloud.png',
+      x, y, w, h, @path,
       nil, nil, nil, nil, nil, # Angle A R G B
       tx, ty, w, h, # Tile coords (top-down)
       nil, nil, nil, nil, # Flip H V, Anchor X Y
@@ -34,6 +35,11 @@ class RainCloud
 end
 
 class RainCloud2 < RainCloud
+  def initialize(coord)
+    super(coord)
+    @path = 'resources/stormcloud.png'
+  end
+
   def animate
     @rain_y -= 1.0
     @rain_y += 11 if @rain_y < 4
