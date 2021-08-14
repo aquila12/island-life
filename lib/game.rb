@@ -19,7 +19,6 @@ class Game
   def tick
     if @current_operation&.alive?
       @fiber_profiler.profile { @current_operation.time_slice(5000) }
-      @status = @fiber_profiler.report
     else
       do_input
     end
@@ -47,7 +46,7 @@ class Game
 
     o.sprites << @actions.values.sort { |a| -a.y }
     @window.draw
-    @args.outputs.labels << [8, 720 - 8, @status, 192, 0, 0] if @status
+    # @args.outputs.labels << [8, 720 - 8, @status, 192, 0, 0] if @status
   end
 
   private
@@ -62,8 +61,6 @@ class Game
     elsif @actions.length < NUM_ACTIONS
       @actions[axial] = RainCloud.new(c)
     end
-
-    # @status = c.to_s
   end
 
   def commit_action
