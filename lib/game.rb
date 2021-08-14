@@ -6,7 +6,7 @@ class Game
   ACTIONS = [
     { sprite_class: RainCloud, provides: { rainfall: 1 } },
     { sprite_class: RainCloud2, provides: { water: 1} },
-    { sprite_class: RainCloud, provides: { flames: 1 } },
+    { sprite_class: Fire, provides: { flames: 1 } },
     { sprite_class: Earthquake, provides: { vibes: 1 } }
   ]
 
