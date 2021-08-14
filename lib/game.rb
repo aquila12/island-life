@@ -112,7 +112,7 @@ class Game
         sprite: action[:sprite_class].new(c.to_point),
         stats: action[:provides]
       }
-      @args.outputs.sounds << 'resources/drip.wav'
+      # @args.outputs.sounds << 'resources/drip.wav'
     end
   end
 
@@ -122,7 +122,7 @@ class Game
     return unless @board.key?(axial)
 
     if @actions.delete(axial)
-      @args.outputs.sounds << 'resources/undrip.wav'
+      # @args.outputs.sounds << 'resources/undrip.wav'
     end
   end
 
