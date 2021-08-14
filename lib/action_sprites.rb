@@ -33,6 +33,17 @@ class RainCloud
   end
 end
 
+class Earthquake
+  attr_sprite
+
+  def initialize(coord)
+    pos = coord.to_point
+    @x, @y = pos.x - 3, pos.y - 3
+    @w = @h = 7
+    @path = 'resources/quake.png'
+  end
+end
+
 class RainCloud2
   def initialize(coord)
     @coord = coord
