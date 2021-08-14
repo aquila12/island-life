@@ -119,8 +119,8 @@ class Game
   end
 
   def commit_action
-    @actions.each_key do |c|
-      @board[c].stats[:rainfall] += 1
+    @actions.each do |c, action|
+      action[:stats].each { |stat, value| @board[c].stats[stat] += value }
     end
 
     @actions.clear
