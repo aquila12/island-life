@@ -10,6 +10,7 @@ class Game
     CubeCoord.default_origin = [32, 32]
     @window = DrawWindow.new(args, 64, 64, 11)
     @board = IslandMap.new(4)
+    @wildlife = Wildlife.new
     @actions = {}
 
     @fiber_profiler = Profiler.new('Fiber', 10)
@@ -42,6 +43,7 @@ class Game
     o = @window.outputs
     o.background_color = '#036'.hexcolor
     @board.draw o
+    @wildlife.draw o
 
     o.sprites << @actions.values.sort { |a| -a.y }
     @window.draw
@@ -74,16 +76,16 @@ class Game
 
   def update_board
     @current_operation = BackgroundTask.new do |task|
-      @board.each do |_k, tile|
+      @board.each_value do |tile|
         set_tile_stats(tile)
-        tile.update
-
         task.yield
+        @wildlife.try_spawn(tile.coord, tile.class.products, tile.stats)
+        task.yield
+        tile.update
       end
 
       @board.transform_values! do |tile|
         task.yield
-
         tile.new_tile
       end
     end
