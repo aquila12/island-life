@@ -98,7 +98,7 @@ class Game
     axial = c.to_axial
     return unless @board.key?(axial)
 
-    if @actions.length < NUM_ACTIONS
+    if @actions.length < NUM_ACTIONS || @actions.key?(axial)
       action = ACTIONS[@current_action]
       @actions[axial] = {
         sprite: action[:sprite_class].new(c),
