@@ -15,7 +15,7 @@ class Wildlife
     [:dragon, '#f00', { cliffs: 1 }, { sand: 4 }, 0.2],
     [:eagle, '#b8d', { cliffs: 1 }, { forage: 4 }, 0.2],
     [:elk, '#ff0', { cover: 1 }, { cover: 6, forage: 4 }, 0.2],
-    [:ent, '#0a0', { mana: 1 }, { forage: 4 }, 1.0],
+    [:ent, '#0a0', { mana: 1 }, { forage: 3 }, 1.0],
     [:giant, '#000', { cliffs: 1 }, { cliffs: 4 }, 0.2],
     [:goat, '#f96', { grazing: 1 }, { cliffs: 4 }, 0.2],
     [:griffin, '#909', { cliffs: 1 }, { mana: 4 }, 0.2],
