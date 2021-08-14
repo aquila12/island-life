@@ -43,7 +43,7 @@ class Game
       when i.mouse.button_right then undo_action(@window.mouse_position)
       end
     end
-    
+
     if i.keyboard.key_up&.a
       commit_action
       @current_operation = update_board
@@ -90,6 +90,7 @@ class Game
 
     @actions.length < NUM_ACTIONS
     @actions[axial] = RainCloud.new(c)
+    @args.outputs.sounds << 'resources/drip.wav'
   end
 
   def undo_action(point)
@@ -97,6 +98,7 @@ class Game
     axial = c.to_axial
     return unless @board.key?(axial)
     @actions.delete(axial)
+    @args.outputs.sounds << 'resources/undrip.wav'
   end
 
   def commit_action
