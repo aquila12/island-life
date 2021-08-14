@@ -88,16 +88,20 @@ class Game
     axial = c.to_axial
     return unless @board.key?(axial)
 
-    @actions[axial] = RainCloud2.new(c) if @actions.length < NUM_ACTIONS
-    @args.outputs.sounds << 'resources/drip.wav'
+    if @actions.length < NUM_ACTIONS
+      @actions[axial] = RainCloud2.new(c)
+      @args.outputs.sounds << 'resources/drip.wav'
+    end
   end
 
   def undo_action(point)
     c = CubeCoord.from_point(point).round!
     axial = c.to_axial
     return unless @board.key?(axial)
-    @actions.delete(axial)
-    @args.outputs.sounds << 'resources/undrip.wav'
+
+    if @actions.delete(axial)
+      @args.outputs.sounds << 'resources/undrip.wav'
+    end
   end
 
   def commit_action
