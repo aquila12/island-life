@@ -6,6 +6,7 @@ class Wildlife
     data.map { |row| Hash[heading.zip(row)] }
   end
 
+  SPAWN_MULT = 0.05
   ANIMALS = table(
     %i[name colour home_needs roaming_needs spawn_chance],
     [:bear, '#960', { forage: 1 }, { fish:1, forage: 4 }, 0.2],
@@ -53,7 +54,7 @@ class Wildlife
       animal = ANIMALS.select { |a| can_survive? a, home_stats, roaming_stats }.sample
       return unless animal
 
-      @animals[a] = realize(animal, coord) if rand < animal[:spawn_chance]
+      @animals[a] = realize(animal, coord) if rand < animal[:spawn_chance] * SPAWN_MULT
     end
   end
 
