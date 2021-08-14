@@ -16,7 +16,7 @@ class Wildlife
     [:buffalo, '#630', { grazing: 1 }, { grazing: 4 }, 0.05],
     [:crab, '#f66', { sand: 1 }, { coast: 2, grazing: 2 }, 0.05],
     [:deer, '#c93', { cover: 1 }, { cover: 3, grazing: 2 }, 0.2],
-    [:dragon, '#f00', { cliffs: 1 }, { grazing: 4, mana: 2 }, 0.2],
+    [:dragon, '#f00', { cliffs: 1 }, { grazing: 3, mana: 1 }, 0.2],
     [:eagle, '#b8d', { cliffs: 1 }, { forage: 4 }, 0.2],
     [:elk, '#ff0', { cover: 1 }, { cover: 6, forage: 4 }, 0.2],
     [:ent, '#0a0', { mana: 1 }, { forage: 3 }, 1.0],
