@@ -39,7 +39,7 @@ class Wildlife
       row, col = i.divmod(5)
       @registry[a[:name]] = {
         seen: false,
-        solid: [1 + 2 * row, 62 - 2 * col, 1, 1, *a[:colour].hexcolor]
+        solid: [1 + 2 * col, 62 - 2 * row, 1, 1, *a[:colour].hexcolor]
       }
     end
   end
