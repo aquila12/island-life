@@ -8,24 +8,24 @@ class Wildlife
 
   ANIMALS = table(
     %i[name colour home_needs roaming_needs spawn_chance],
-    [:bear, '#960', { forage: 1 }, { fish:1, forage: 4 }, 1.0],
-    [:buffalo, '#630', { grazing: 1 }, { grazing: 6 }, 1.0],
-    [:Crab, '#f66', { sand: 1 }, { grazing: 2 }, 1.0],
-    [:Deer, '#c93', { cover: 1 }, { grazing: 3 }, 1.0],
-    [:Dragon, '#f00', { cliffs: 1 }, { sand: 4 }, 1.0],
-    [:Eagle, '#b8d', { cliffs: 1 }, { forage: 4 }, 1.0],
-    [:Elk, '#630', { cover: 1 }, { cover: 6, forage: 4 }, 1.0],
-    [:Ent, '#0a0', { mana: 1 }, { forage: 4 }, 1.0],
-    [:Giant, '#000', { cliffs: 1 }, { cliffs: 4 }, 1.0],
-    [:Goat, '#f96', { grazing: 1 }, { cliffs: 4 }, 1.0],
-    [:Griffin, '#909', { cliffs: 1 }, { cover: 8 }, 1.0],
-    [:Kangaroo, '#00f', { grazing: 1 }, { fish: 4 }, 1.0],
-    [:Koala, '#ccc', { forage: 1 }, { fish: 4 }, 1.0],
-    [:kraken, '#636', { fish: 1}, { fish: 6}, 1.0],
-    [:Mummy, '#b90', { sand: 1 }, { cliffs: 4 }, 1.0],
-    [:Naiads, '#0dd', { fish: 1 }, { mana: 6 }, 1.0],
-    [:Tiger, '#f90', { cover: 1 }, { grazing: 4 }, 1.0],
-    [:Unicorn, '#fff', { grazing: 1 }, { mana: 6 }, 1.0]
+    [:bear, '#960', { forage: 1 }, { fish:1, forage: 4 }, 0.2],
+    [:buffalo, '#630', { grazing: 1 }, { grazing: 4 }, 0.2],
+    [:crab, '#f66', { sand: 1 }, { grazing: 2 }, 0.2],
+    [:deer, '#c93', { cover: 1 }, { grazing: 3 }, 0.2],
+    [:dragon, '#f00', { cliffs: 1 }, { sand: 4 }, 0.2],
+    [:eagle, '#b8d', { cliffs: 1 }, { forage: 4 }, 0.2],
+    [:elk, '#ff0', { cover: 1 }, { cover: 6, forage: 4 }, 0.2],
+    [:ent, '#0a0', { mana: 1 }, { forage: 4 }, 1.0],
+    [:giant, '#000', { cliffs: 1 }, { cliffs: 4 }, 0.2],
+    [:goat, '#f96', { grazing: 1 }, { cliffs: 4 }, 0.2],
+    [:griffin, '#909', { cliffs: 1 }, { cover: 8 }, 0.2],
+    [:kangaroo, '#00f', { grazing: 1 }, { fish: 4 }, 0.2],
+    [:koala, '#ccc', { forage: 1 }, { fish: 4 }, 0.2],
+    [:kraken, '#636', { fish: 1}, { fish: 6}, 0.2],
+    [:mummy, '#b90', { sand: 1 }, { cliffs: 4 }, 0.2],
+    [:naiads, '#0dd', { fish: 1 }, { mana: 6 }, 0.2],
+    [:tiger, '#f90', { cover: 1 }, { grazing: 4 }, 0.2],
+    [:unicorn, '#fff', { grazing: 1 }, { mana: 6 }, 0.2]
   )
 
   def initialize
