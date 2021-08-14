@@ -19,8 +19,10 @@ class Game
     @wildlife = Wildlife.new
     @current_operation = initialize_board
     @actions = {}
+    @font = MiniFont.new('resources/font.png', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 4, 6)
 
     @fiber_profiler = Profiler.new('Fiber', 10)
+    @font_profiler = Profiler.new('FontPrep', 10)
   end
 
   def tick
@@ -41,10 +43,13 @@ class Game
       when i.mouse.button_right then undo_action(@window.mouse_position)
       end
     end
+    
     if i.keyboard.key_up&.a
       commit_action
       @current_operation = update_board
     end
+
+    @status_text = prepare_status_lines(@window.mouse_position)
   end
 
   def do_output
@@ -53,12 +58,30 @@ class Game
     @board.draw o
     @wildlife.draw o
 
+    o.sprites << @status_text
+
     o.sprites << @actions.values.sort { |a| -a.y }
     @window.draw
     # @args.outputs.labels << [8, 720 - 8, @status, 192, 0, 0] if @status
+    # @args.outputs.labels << [8, 720 - 8, @font_profiler.report, 192, 0, 0]
   end
 
   private
+
+  def prepare_status_lines(point)
+    @font_profiler.profile do
+      c = CubeCoord.from_point(point).round!
+      axial = c.to_axial
+      return [] unless @board.key?(axial)
+
+      text = [
+        @wildlife.animal_at(axial).upcase,
+        @board[axial].name.upcase
+      ].join("\n")
+
+      @font.str2sprites(1, 6, text)
+    end
+  end
 
   def place_action(point)
     c = CubeCoord.from_point(point).round!
