@@ -32,7 +32,7 @@ class MiniFont
         sprites << glyph_sprite(char, cx, cy)
         cx += @glyph_w
       end
-      cy += @glyph_h
+      cy -= @glyph_h
     end
 
     sprites
