@@ -30,9 +30,19 @@ class Wildlife
 
   def initialize
     @animals = {}
+    init_registry
   end
 
-  attr_reader :animals
+  def init_registry
+    @registry = {}
+    ANIMALS.each_with_index do |a, i|
+      row, col = i.divmod(5)
+      @registry[a[:name]] = {
+        seen: false,
+        solid: [1 + 2 * row, 62 - 2 * col, 1, 1, *a[:colour].hexcolor]
+      }
+    end
+  end
 
   def do_update(coord, home_stats, roaming_stats)
     a = coord.to_axial
@@ -58,10 +68,22 @@ class Wildlife
       position: coord.to_point
     }
 
+    @registry[animal[:name]][:seen] = true
     animal.merge(placement)
   end
 
   def draw(outputs)
+    draw_registry(outputs)
+    draw_animals(outputs)
+  end
+
+  def draw_registry(outputs)
+    @registry.each_value do |entry|
+      outputs.solids << entry[:solid] if entry[:seen]
+    end
+  end
+
+  def draw_animals(outputs)
     @animals.each_value do |animal|
       centre = animal[:position]
       r, g, b, a = animal[:colour]
