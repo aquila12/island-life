@@ -9,8 +9,9 @@ class Game
     CubeCoord.size = 6
     CubeCoord.default_origin = [32, 32]
     @window = DrawWindow.new(args, 64, 64, 11)
-    @board = IslandMap.new(4)
+    @board = IslandMap.new
     @wildlife = Wildlife.new
+    @current_operation = initialize_board
     @actions = {}
 
     @fiber_profiler = Profiler.new('Fiber', 10)
@@ -71,8 +72,18 @@ class Game
     @actions.clear
   end
 
+  def initialize_board
+    BackgroundTask.new do |task|
+      centre = CubeCoord[0, 0, 0]
+      @board.fill_tiles(centre, 5, TileTypes::Waste)
+      task.yield
+      @board.erode(centre, 5, 0.5)
+      task.yield
+    end
+  end
+
   def update_board
-    @current_operation = BackgroundTask.new do |task|
+    BackgroundTask.new do |task|
       @board.each_value do |tile|
         set_tile_stats(tile)
         task.yield
