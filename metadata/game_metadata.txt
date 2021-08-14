@@ -2,5 +2,5 @@ devid=aquila12
 devtitle=Nick Moriarty
 gameid=island-life
 gametitle=Island Life
-version=0.2
-icon=resources/tile.png
+version=0.9
+icon=resources/logo-64x88.png
