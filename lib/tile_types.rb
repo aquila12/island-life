@@ -6,7 +6,7 @@ module TileTypes
     appearance '#fc9'
 
     def behaviour
-      replace_with Grass if @stats[:vegetation] > 1 || @stats[:rainfall] > 0
+      replace_with Grass if @stats[:vegetation] > 2 || @stats[:rainfall] > 0
     end
   end
 
@@ -15,7 +15,7 @@ module TileTypes
     appearance '#2f2'
 
     def behaviour
-      if @stats[:vegetation] > 5 && @stats[:rainfall] > 0 || @stats[:vegetation] > 7
+      if @stats[:vegetation] > 5 && @stats[:rainfall] > 0 || @stats[:vegetation] > 8
         replace_with Forest
       elsif  @stats[:vegetation] < 2
         replace_with Waste
@@ -29,7 +29,7 @@ module TileTypes
     appearance '#2a2'
 
     def behaviour
-      if @stats[:vegetation] > 11 && @stats[:rainfall] > 0 || @stats[:vegetation] > 15
+      if @stats[:vegetation] > 11 && @stats[:rainfall] > 0 || @stats[:vegetation] > 17
         replace_with OldForest
       elsif @stats[:vegetation] < 6
         replace_with Grass
