@@ -33,26 +33,31 @@ class Wildlife
 
   attr_reader :animals
 
-  def try_spawn(coord, home_stats, roaming_stats)
-    return if @animals.has_key? coord.to_axial
+  def do_update(coord, home_stats, roaming_stats)
+    a = coord.to_axial
+    animal = @animals[a]
+    if animal
+      @animals.delete a unless can_survive? animal, home_stats, roaming_stats
+    else
+      animal = ANIMALS.select { |a| can_survive? a, home_stats, roaming_stats }.sample
+      return unless animal
 
-    valid_spawns = ANIMALS.select do |rule|
-      needs_met?(rule[:home_needs], home_stats) &&
-      needs_met?(rule[:roaming_needs], roaming_stats)
+      @animals[a] = realize(animal, coord) if rand < animal[:spawn_chance]
     end
-
-    return if valid_spawns.empty?
-
-    animal = valid_spawns.sample
-    spawn(coord, animal) if rand < animal[:spawn_chance]
   end
 
-  def spawn(coord, animal)
-    @animals[coord.to_axial] = {
-      name: animal[:name],
+  def can_survive?(animal, home_stats, roaming_stats)
+    needs_met?(animal[:home_needs], home_stats) &&
+    needs_met?(animal[:roaming_needs], roaming_stats)
+  end
+
+  def realize(animal, coord)
+    placement = {
       colour: animal[:colour].hexcolor,
       position: coord.to_point
     }
+
+    animal.merge(placement)
   end
 
   def draw(outputs)

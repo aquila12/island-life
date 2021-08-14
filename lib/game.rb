@@ -79,7 +79,7 @@ class Game
       @board.each_value do |tile|
         set_tile_stats(tile)
         task.yield
-        @wildlife.try_spawn(tile.coord, tile.class.products, tile.stats)
+        @wildlife.do_update(tile.coord, tile.class.products, tile.stats)
         task.yield
         tile.update
       end
