@@ -25,7 +25,6 @@ module TileTypes
 
   class Forest < Tile
     provides vegetation: 2, trees: 1, cover: 1, forage: 1
-    provides rodent: 1 # Macro approximation
     appearance '#2a2'
 
     def behaviour
@@ -63,7 +62,7 @@ module TileTypes
   end
 
   class Lake < Tile
-    provides fish: 1
+    provides fish: 1, coast: 1, land: -1
     appearance '#69c'
 
     def behaviour
