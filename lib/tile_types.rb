@@ -40,7 +40,7 @@ module TileTypes
   end
 
   class OldForest < Tile
-    provides vegetation: 4, trees: 2, cover: 2, mana: 1, forage: 1
+    provides vegetation: 4, trees: 2, cover: 2, mana: 1, forage: 0
     appearance '#252'
 
     def behaviour
