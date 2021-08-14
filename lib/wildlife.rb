@@ -37,6 +37,10 @@ class Wildlife
     init_registry
   end
 
+  def seen?(animal)
+    @registry[animal[:name]][:seen]
+  end
+
   def animal_at(axial)
     return '' unless @animals.key? axial
     @animals[axial][:name].to_s

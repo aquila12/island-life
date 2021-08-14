@@ -76,16 +76,24 @@ class Game
 
   def prepare_status_lines(point)
     @font_profiler.profile do
-      c = CubeCoord.from_point(point).round!
-      axial = c.to_axial
-      return [] unless @board.key?(axial)
+      if point.x < 10 && point.y >= 54
+        index = ((point.x - 1) / 2).round + ((63 - point.y) / 2).round * 5
+        animal = Wildlife::ANIMALS[index]
+        return [] unless animal && @wildlife.seen?(animal)
 
-      text = [
-        @wildlife.animal_at(axial).upcase,
-        @board[axial].name.upcase
-      ].join("\n")
+        @font.str2sprites(1, 1, animal[:name].to_s.upcase)
+      else
+        c = CubeCoord.from_point(point).round!
+        axial = c.to_axial
+        return [] unless @board.key?(axial)
 
-      @font.str2sprites(1, 6, text)
+        text = [
+          @wildlife.animal_at(axial).upcase,
+          @board[axial].name.upcase
+        ].join("\n")
+
+        @font.str2sprites(1, 6, text)
+      end
     end
   end
 
