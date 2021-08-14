@@ -78,11 +78,18 @@ module TileTypes
     provides cliffs: 1
     appearance '#c'
 
+    def behaviour
+      Waste if @stats[:water] > 0
+    end
   end
 
   class Lake < BaseTile
     provides fish: 1, coast: 1, land: -1
     appearance '#69c'
+
+    def behaviour
+      Waste if @stats[:vibes] > 0
+    end
 
   end
 
