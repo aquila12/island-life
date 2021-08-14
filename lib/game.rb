@@ -130,7 +130,7 @@ class Game
   def initialize_board
     BackgroundTask.new do |task|
       centre = CubeCoord[0, 0, 0]
-      @board.fill_tiles(centre, 5, TileTypes::Waste)
+      @board.fill_tiles(centre, 5, TileTypes::Desert)
       task.yield
       @board.erode(centre, 5, 0.5)
       @board.erode(centre, 4, 0.2)

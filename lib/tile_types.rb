@@ -7,14 +7,14 @@ module TileTypes
       if @stats[:water]>0
         Lake
       elsif @stats[:flames]>0
-        Waste
+        Desert
       elsif @stats[:vibes]>0
         Mountain
       end
     end
   end
 
-  class Waste < BaseTile
+  class Desert < BaseTile
     provides sand: 1
     appearance '#fc9'
 
@@ -37,7 +37,7 @@ module TileTypes
       elsif @stats[:vegetation] > 5 && @stats[:rainfall] > 0 || @stats[:vegetation] > 8
         Forest
       elsif  @stats[:vegetation] < 2
-        Waste
+        Desert
       end
     end
   end
@@ -53,7 +53,7 @@ module TileTypes
       elsif @stats[:vegetation] < 6
         Grass
       elsif @stats[:vegetation] < 2
-        Waste
+        Desert
       end
     end
   end
@@ -69,7 +69,7 @@ module TileTypes
       elsif @stats[:vegetation] < 6
         Grass
       elsif @stats[:vegetation] < 2
-        Waste
+        Desert
       end
     end
   end
@@ -79,7 +79,7 @@ module TileTypes
     appearance '#c'
 
     def behaviour
-      Waste if @stats[:water] > 0
+      Desert if @stats[:water] > 0
     end
   end
 
@@ -88,7 +88,7 @@ module TileTypes
     appearance '#69c'
 
     def behaviour
-      Waste if @stats[:vibes] > 0
+      Desert if @stats[:vibes] > 0
     end
 
   end
