@@ -10,6 +10,7 @@ class Wildlife
     %i[name colour home_needs roaming_needs spawn_chance],
     [:bear, '#960', { forage: 1 }, { fish:1, forage: 4 }, 0.2],
     [:buffalo, '#630', { grazing: 1 }, { grazing: 4 }, 0.2],
+<<<<<<< HEAD
     [:crab, '#f66', { sand: 1 }, { grazing: 2 }, 0.2],
     [:deer, '#c93', { cover: 1 }, { grazing: 3 }, 0.2],
     [:dragon, '#f00', { cliffs: 1 }, { sand: 4 }, 0.2],
@@ -26,6 +27,24 @@ class Wildlife
     [:naiads, '#0dd', { fish: 1 }, { mana: 6 }, 0.2],
     [:tiger, '#f90', { cover: 1 }, { grazing: 4 }, 0.2],
     [:unicorn, '#fff', { grazing: 1 }, { mana: 6 }, 0.2]
+=======
+    [:Crab, '#f66', { sand: 1 }, { grazing: 2 }, 0.2],
+    [:Deer, '#c93', { cover: 1 }, { grazing: 3 }, 0.2],
+    [:Dragon, '#f00', { cliffs: 1 }, { sand: 4 }, 0.2],
+    [:Eagle, '#b8d', { cliffs: 1 }, { forage: 4 }, 0.2],
+    [:Elk, '#ff0', { cover: 1 }, { cover: 6, forage: 4 }, 0.2],
+    [:Ent, '#0a0', { mana: 1 }, { forage: 4 }, 1.0],
+    [:Giant, '#000', { cliffs: 1 }, { cliffs: 4 }, 0.2],
+    [:Goat, '#f96', { grazing: 1 }, { cliffs: 4 }, 0.2],
+    [:Griffin, '#909', { cliffs: 1 }, { cover: 8 }, 0.2],
+    [:Kangaroo, '#00f', { grazing: 1 }, { fish: 4 }, 0.2],
+    [:Koala, '#ccc', { forage: 1 }, { fish: 4 }, 0.2],
+    [:kraken, '#636', { fish: 1}, { fish: 6}, 0.2],
+    [:Mummy, '#b90', { sand: 1 }, { cliffs: 4 }, 0.2],
+    [:Naiads, '#0dd', { fish: 1 }, { mana: 6 }, 0.2],
+    [:Tiger, '#f90', { cover: 1 }, { grazing: 4 }, 0.2],
+    [:Unicorn, '#fff', { grazing: 1 }, { mana: 6 }, 0.2]
+>>>>>>> efed2df7a2d054c9462ac45019300e0055261e34
   )
 
   def initialize
