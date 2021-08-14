@@ -3,7 +3,10 @@
 class Wildlife
   # TODO: utility go elsewhere!
   def self.table(heading, *data)
-    data.map { |row| Hash[heading.zip(row)] }
+    h = [:id] + heading
+    data.map.with_index do |row, id|
+      Hash[h.zip([id] + row)]
+    end
   end
 
   ANIMALS = table(
@@ -63,9 +66,11 @@ class Wildlife
   end
 
   def realize(animal, coord)
+    y, x = animal[:id].divmod(5)
     placement = {
+      tile: [7 * x, 5 * y],
       colour: animal[:colour].hexcolor,
-      position: coord.to_point
+      position: coord.to_point,
     }
 
     @registry[animal[:name]][:seen] = true
@@ -86,10 +91,11 @@ class Wildlife
   def draw_animals(outputs)
     @animals.each_value do |animal|
       centre = animal[:position]
-      r, g, b, a = animal[:colour]
+      tile = animal[:tile]
       outputs.sprites << {
-        x: centre.x - 1, y: centre.y - 1, w: 3, h: 3,
-        r: r, g: g, b: b, a: a, path: 'resources/animal.png'
+        x: centre.x - 3, y: centre.y - 2, w: 7, h: 5,
+        tile_x: tile.x, tile_y: tile.y, tile_w: 7, tile_h: 5,
+        path: 'resources/animals.png'
       }
     end
   end
