@@ -3,12 +3,12 @@
 # Class to encapsulate the whole game state
 class Game
   NUM_ACTIONS = 3
-  ACTIONS = {
-  rain: { sprite_class: RainCloud, provides: { rainfall: 1 } },
-  flood: { sprite_class: RainCloud2, provides: {water: 1}}
-  # fire: { sprite_class:Flames,provides: {flames:1}},
-  # earthquake:{sprite_class:Tremors,provides:{vibes:1}}
-}
+  ACTIONS = [
+    { sprite_class: RainCloud, provides: { rainfall: 1 } },
+    { sprite_class: RainCloud2, provides: {water: 1} }
+    # { sprite_class:Flames,provides: {flames:1}},
+    # {sprite_class:Tremors,provides:{vibes:1}}
+  ]
 
   def initialize(args)
     @args = args
@@ -23,6 +23,8 @@ class Game
 
     @fiber_profiler = Profiler.new('Fiber', 10)
     @font_profiler = Profiler.new('FontPrep', 10)
+
+    @current_action = 0
   end
 
   def tick
@@ -39,14 +41,16 @@ class Game
     i = @args.inputs
     if i.mouse.click
       case
-      when i.mouse.button_left then place_action(@window.mouse_position)
-      when i.mouse.button_right then undo_action(@window.mouse_position)
+      when i.mouse.button_left
+        pos = @window.mouse_position
+        if (pos.y < 16 && pos.x >= 56)
+          pos.y < 8 ? commit_action : change_tool
+        else
+          place_action(pos)
+        end
+      when i.mouse.button_right
+        undo_action(@window.mouse_position)
       end
-    end
-
-    if i.keyboard.key_up&.a
-      commit_action
-      @current_operation = update_board
     end
 
     @status_text = prepare_status_lines(@window.mouse_position)
@@ -59,8 +63,9 @@ class Game
     @wildlife.draw o
 
     o.sprites << @status_text
+    o.sprites << [56, 0, 8, 16, 'resources/toolbar.png']
 
-    o.sprites << @actions.values.sort { |a| -a.y }
+    o.sprites << @actions.values.map { |a| a[:sprite] }.sort { |a| a.y }
     @window.draw
     # @args.outputs.labels << [8, 720 - 8, @status, 192, 0, 0] if @status
     # @args.outputs.labels << [8, 720 - 8, @font_profiler.report, 192, 0, 0]
@@ -83,13 +88,22 @@ class Game
     end
   end
 
+  def change_tool
+    @current_action += 1
+    @current_action = 0 unless @current_action < ACTIONS.length
+  end
+
   def place_action(point)
     c = CubeCoord.from_point(point).round!
     axial = c.to_axial
     return unless @board.key?(axial)
 
     if @actions.length < NUM_ACTIONS
-      @actions[axial] = RainCloud2.new(c)
+      action = ACTIONS[@current_action]
+      @actions[axial] = {
+        sprite: action[:sprite_class].new(c),
+        stats: action[:provides]
+      }
       @args.outputs.sounds << 'resources/drip.wav'
     end
   end
@@ -110,6 +124,7 @@ class Game
     end
 
     @actions.clear
+    @current_operation = update_board
   end
 
   def initialize_board
