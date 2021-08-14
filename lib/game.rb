@@ -3,6 +3,12 @@
 # Class to encapsulate the whole game state
 class Game
   NUM_ACTIONS = 3
+  ACTIONS = {
+  rain: { sprite_class: RainCloud, provides: { rainfall: 1 } },
+  #flood: { sprite_class: Waters, provides: {water: 1}},
+  # fire: { sprite_class:Flames,provides: {flames:1}},
+  # earthquake:{sprite_class:Tremors,provides:{vibes:1}}
+}
 
   def initialize(args)
     @args = args
@@ -32,10 +38,12 @@ class Game
     if i.mouse.click
       case
       when i.mouse.button_left then place_action(@window.mouse_position)
-      when i.mouse.button_right
-        commit_action
-        @current_operation = update_board
+      when i.mouse.button_right then undo_action(@window.mouse_position)
       end
+    end
+    if i.keyboard.key_up&.a
+      commit_action
+      @current_operation = update_board
     end
   end
 
@@ -57,11 +65,15 @@ class Game
     axial = c.to_axial
     return unless @board.key?(axial)
 
-    if @actions.key?(axial)
-      @actions.delete(axial)
-    elsif @actions.length < NUM_ACTIONS
-      @actions[axial] = RainCloud.new(c)
-    end
+    @actions.length < NUM_ACTIONS
+    @actions[axial] = RainCloud.new(c)
+  end
+
+  def undo_action(point)
+    c = CubeCoord.from_point(point).round!
+    axial = c.to_axial
+    return unless @board.key?(axial)
+    @actions.delete(axial)
   end
 
   def commit_action
