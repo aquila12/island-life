@@ -6,7 +6,7 @@ class Tile
 
   class << self
     def products
-      @stats ||= {}
+      @stats ||= Hash.new(0)
     end
 
     def provides(**new_products)
