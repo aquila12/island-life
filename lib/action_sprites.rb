@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class RainCloud
-  def initialize(coord)
-    @coord = coord
-    @x, @y = coord.to_point
+  def initialize(point)
+    @x, @y = point
     @rain_y = 4.0
     @path = 'resources/raincloud.png'
   end
@@ -35,8 +34,8 @@ class RainCloud
 end
 
 class RainCloud2 < RainCloud
-  def initialize(coord)
-    super(coord)
+  def initialize(point)
+    super(point)
     @path = 'resources/stormcloud.png'
   end
 
@@ -49,18 +48,16 @@ end
 class Earthquake
   attr_sprite
 
-  def initialize(coord)
-    pos = coord.to_point
-    @x, @y = pos.x - 3, pos.y - 4
+  def initialize(point)
+    @x, @y = point.x - 3, point.y - 4
     @w = @h = 7
     @path = 'resources/quake.png'
   end
 end
 
 class Fire
-  def initialize(coord)
-    @coord = coord
-    @x, @y = coord.to_point
+  def initialize(point)
+    @x, @y = point
     @tile_x = 0
     @wait = 0
     @path = 'resources/fire.png'
