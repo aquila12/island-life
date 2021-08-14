@@ -1,6 +1,6 @@
 devid=aquila12
-devtitle=Nick Moriarty
+devtitle=Fishy Fishy Productions
 gameid=island-life
 gametitle=Island Life
-version=0.9
+version=1.0
 icon=resources/logo-64x88.png
