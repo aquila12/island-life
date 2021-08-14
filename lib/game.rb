@@ -5,9 +5,9 @@ class Game
   NUM_ACTIONS = 3
   ACTIONS = [
     { sprite_class: RainCloud, provides: { rainfall: 1 } },
-    { sprite_class: RainCloud2, provides: {water: 1} }
-    # { sprite_class:Flames,provides: {flames:1}},
-    # {sprite_class:Tremors,provides:{vibes:1}}
+    { sprite_class: RainCloud2, provides: { water: 1} },
+    { sprite_class: RainCloud, provides: { flames: 1 } },
+    { sprite_class: RainCloud2, provides: { vibes: 1 } }
   ]
 
   def initialize(args)
