@@ -7,7 +7,7 @@ class Wildlife
   end
 
   ANIMALS = table(
-    %i[name, colour, home_needs, roaming_needs, spawn_chance],
+    %i[name colour home_needs roaming_needs spawn_chance],
     [:bear, '#960', { forage: 1 }, { fish:1, forage: 4 }, 1.0],
     [:buffalo, '#630', { grazing: 1 }, { grazing: 6 }, 1.0],
     [:Crab, '#f66', { sand: 1 }, { grazing: 2 }, 1.0],
