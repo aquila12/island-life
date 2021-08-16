@@ -12,15 +12,8 @@ class Color
 
       case string.length
       when 1, 3, 4 then new(*string.chars.map { |c| c.hex * 0x11 })
-      when 2, 6, 8
-        c = []
-        buf = string.dup
-        until buf.empty?
-          c << buf.slice!(0,2).hex
-        end
-        new(*c)
-      else
-        gray(0)
+      when 2, 6, 8 then new(*[string].pack('H*').unpack('C*'))
+      else new
       end
     end
 
