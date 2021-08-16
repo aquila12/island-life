@@ -14,7 +14,7 @@ class Tile
     end
 
     def appearance(tint)
-      @tint = tint.hexcolor
+      @tint = Color[tint]
     end
 
     attr_reader :tint
@@ -33,7 +33,7 @@ class Tile
     pos = @coord.to_point
     @x, @y = pos.x - 3, pos.y - 4
     @w, @h = 7, 8
-    @r, @g, @b, @a = self.class.tint
+    @r, @g, @b, @a = self.class.tint.rgba
     @source_x, @source_y = 0, 0
     @source_w, @source_h = @w, @h
     @path = 'resources/tile.png'

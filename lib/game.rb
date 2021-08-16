@@ -58,7 +58,7 @@ class Game
 
   def do_output
     o = @window.outputs
-    o.background_color = '#036'.hexcolor
+    o.background_color = Color['#036'].rgb
     @board.draw o
     @wildlife.draw o
 
@@ -102,9 +102,9 @@ class Game
     @current_action = 0 unless @current_action < ACTIONS.length
 
     action = ACTIONS[@current_action]
-    tile_colour = action[:colour].hexcolor
+    tile_colour = Color[action[:colour]]
     @tool_sprites = [
-      [57, 56, 7, 8, 'resources/tile.png', 0, tile_colour[3], *tile_colour[0..2]],
+      [57, 56, 7, 8, 'resources/tile.png', 0, *tile_colour.argb],
       ACTIONS[@current_action][:sprite_class].new([60, 60])
     ]
   end

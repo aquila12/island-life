@@ -1,6 +1,6 @@
 # Dependencies, in load order; require is asynchronous in DR
 
-require 'lib/string_hexcolor.rb'
+require 'lib/color.rb'
 require 'lib/profiler.rb'
 require 'lib/background_task.rb'
 

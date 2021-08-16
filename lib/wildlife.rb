@@ -52,7 +52,7 @@ class Wildlife
       row, col = i.divmod(5)
       @registry[a[:name]] = {
         seen: false,
-        solid: [1 + 2 * col, 62 - 2 * row, 1, 1, *a[:colour].hexcolor]
+        solid: [1 + 2 * col, 62 - 2 * row, 1, 1, Color[a[:colour]].rgba]
       }
     end
   end
@@ -79,7 +79,6 @@ class Wildlife
     y, x = animal[:id].divmod(5)
     placement = {
       tile: [7 * x, 5 * y],
-      colour: animal[:colour].hexcolor,
       position: coord.to_point,
     }
 
