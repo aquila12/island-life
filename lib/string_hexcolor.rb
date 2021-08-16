@@ -10,18 +10,13 @@ class String
     return self[1..-1].hexcolor if start_with? '#'
 
     case length
-    when 1 then c = Array.new(3, hex * 0x11)
-    when 2 then c = Array.new(3, hex)
-    when 3, 4 then c = chars.map { |c| c.hex * 0x11 }
-    when 6, 8
-      c = []
-      buf = dup
-      until buf.empty?
-        c << buf.slice!(0,2).hex
-      end
-    else
-      return [0, 0, 0, 255]
+    when 1, 3, 4 then _hexcolor_rgba(*chars.map { |c| c.hex * 0x11 })
+    when 2, 6, 8 then _hexcolor_rgba(*[self].pack('H*').unpack('C*'))
+    else _hexcolor_rgba
     end
-    c.length < 4 ? c << 255 : c
+  end
+
+  def _hexcolor_rgba(r = 0, g = r, b = r, a = 255)
+    [r, g, b, a]
   end
 end
