@@ -60,6 +60,7 @@ raise 'Fail: Color[] (3 char)' unless Color['#3c0'].rgba == [51, 204, 0, 255]
 raise 'Fail: Color[] (4 char)' unless Color['#fc0a'].rgba == [255, 204, 0, 170]
 raise 'Fail: Color[] (6 char)' unless Color['#ffc007'].rgba == [255, 192, 7, 255]
 raise 'Fail: Color[] (8 char)' unless Color['#ffc00780'].rgba == [255, 192, 7, 128]
+raise 'Fail: Color[] (no #)' unless Color['ffc00780'].rgba == [255, 192, 7, 128]
 raise 'Fail: Color#rgb' unless Color['#3c0'].rgb == [51, 204, 0]
 raise 'Fail: Color#argb' unless Color['#3c0'].argb == [255, 51, 204, 0]
 raise 'Fail: Color#to_h' unless Color['#3c0'].to_h == { a: 255, r: 51, g: 204, b: 0 }
