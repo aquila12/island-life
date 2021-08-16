@@ -18,10 +18,6 @@ class Color
     end
 
     alias [] hex
-
-    def gray(v)
-      new(v, v, v)
-    end
   end
 
   def initialize(r = 0, g = r, b = r, a = 255)
@@ -53,7 +49,7 @@ end
 
 # Self-test
 raise 'Fail: Color.hex' unless Color.hex('#3').rgba == [51, 51, 51, 255]
-raise 'Fail: Color.gray' unless Color.gray(20).rgba == [20, 20, 20, 255]
+raise 'Fail: Color.new (grey)' unless Color.new(20).rgba == [20, 20, 20, 255]
 raise 'Fail: Color[] (1 char)' unless Color['#3'].rgba == [51, 51, 51, 255]
 raise 'Fail: Color[] (2 char)' unless Color['#7f'].rgba == [127, 127, 127, 255]
 raise 'Fail: Color[] (3 char)' unless Color['#3c0'].rgba == [51, 204, 0, 255]
